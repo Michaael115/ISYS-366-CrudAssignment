@@ -14,6 +14,8 @@ namespace CrudAssignment.Pages.Items
     {
         private readonly CrudAssignment.Data.CrudAssignmentContext _context;
 
+
+
         public DetailsModel(CrudAssignment.Data.CrudAssignmentContext context)
         {
             _context = context;

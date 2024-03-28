@@ -7,12 +7,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CrudAssignment.Data;
 using CrudAssignment.Models;
+using System.CodeDom;
 
 namespace CrudAssignment.Pages.Items
 {
     public class DeleteModel : PageModel
     {
         private readonly CrudAssignment.Data.CrudAssignmentContext _context;
+
+        private readonly IItemRepository _repo;
 
         public DeleteModel(CrudAssignment.Data.CrudAssignmentContext context)
         {
@@ -21,6 +24,8 @@ namespace CrudAssignment.Pages.Items
 
         [BindProperty]
         public Item Item { get; set; } = default!;
+
+
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -42,6 +47,7 @@ namespace CrudAssignment.Pages.Items
             return Page();
         }
 
+
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)
@@ -53,7 +59,7 @@ namespace CrudAssignment.Pages.Items
             if (item != null)
             {
                 Item = item;
-                _context.Item.Remove(Item);
+               await _repo.DeleteItem(id);
                 await _context.SaveChangesAsync();
             }
 

@@ -1,3 +1,5 @@
+using CrudAssignment.Data;
+using CrudAssignment.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -5,16 +7,19 @@ namespace CrudAssignment.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly IItemRepository _repo;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(IItemRepository repo)
         {
-            _logger = logger;
+            _repo = repo;
         }
 
-        public void OnGet()
-        {
+        public IList<Item> ItemModels { get; set; } = default;
 
+        public async Task OnGetAsync()
+        {
+            ItemModels = await _repo.GetAllAsync();
         }
+
     }
 }

@@ -13,11 +13,11 @@ namespace CrudAssignment.Pages.Items
 {
     public class EditModel : PageModel
     {
-        private readonly CrudAssignment.Data.CrudAssignmentContext _context;
+        private readonly IItemRepository _repo;
 
-        public EditModel(CrudAssignment.Data.CrudAssignmentContext context)
+        public EditModel(IItemRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
 
         [BindProperty]
@@ -30,12 +30,14 @@ namespace CrudAssignment.Pages.Items
                 return NotFound();
             }
 
-            var item =  await _context.Item.FirstOrDefaultAsync(m => m.Id == id);
-            if (item == null)
+            //id.value
+
+            var tempItem = await _repo.GetItemAsync(id.Value);
+            if (tempItem == null)
             {
                 return NotFound();
             }
-            Item = item;
+            Item = tempItem;
             return Page();
         }
 
@@ -48,30 +50,14 @@ namespace CrudAssignment.Pages.Items
                 return Page();
             }
 
-            _context.Attach(Item).State = EntityState.Modified;
-
-            try
+            if(!await _repo.UpdateItemAysnc(Item))
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ItemExists(Item.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return RedirectToPage("./Index");
         }
 
-        private bool ItemExists(int id)
-        {
-            return _context.Item.Any(e => e.Id == id);
-        }
+  
     }
 }

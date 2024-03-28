@@ -9,6 +9,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<CrudAssignmentContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CrudAssignmentContext") ?? throw new InvalidOperationException("Connection string 'CrudAssignmentContext' not found.")));
 
+builder.Services.AddScoped<ItemRepository, ItemRepository>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

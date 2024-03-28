@@ -15,6 +15,8 @@ namespace CrudAssignment.Pages.Items
     {
         private readonly CrudAssignment.Data.CrudAssignmentContext _context;
 
+        private readonly IItemRepository _repo;
+
         public IndexModel(CrudAssignment.Data.CrudAssignmentContext context)
         {
             _context = context;

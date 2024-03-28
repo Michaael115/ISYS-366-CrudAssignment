@@ -34,7 +34,6 @@ namespace CrudAssignment.Pages.Items
             {
                 return Page();
             }
-
             _context.Item.Add(Item);
             await _context.SaveChangesAsync();
 
