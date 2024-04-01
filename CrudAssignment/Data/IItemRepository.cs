@@ -4,12 +4,14 @@ namespace CrudAssignment.Data
 {
     public interface IItemRepository
     {
-        Task<Item> DeleteItem(int? id);
-        Task<IList<Item>> GetAllAsync();
-        Task<IEnumerable<Item>> GetItemAsync();
+        IEnumerable<Item> GetAllItems(string? filter);
 
-        Task<Item> GetItemAsync(int? id);
+        Item? GetById(int id);
 
-        Task<bool> UpdateItemAysnc(Item item);
+        void AddItem(Item item);
+
+        bool UpdateItem(Item item);
+
+        void DeleteItem(int id);
     }
 }

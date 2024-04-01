@@ -12,70 +12,74 @@ namespace CrudAssignment.Data
             _context = context;
         }
 
-        public async Task<IEnumerable<Item>> GetItemsAsync()
+        public IEnumerable<Item> GetAllItems(string? filter)
         {
-            return await _context.Item.ToListAsync();
+            if (string.IsNullOrEmpty(filter))
+                return _context.Item.ToList();
+
+            return _context.Item.Where(i => i.Name.Contains(filter)).ToList();
         }
 
-
-        public async Task<bool> UpdateItemAsync()
+        public Item? GetItemById(int id)
         {
-            return await _context.Item.AnyAsync();
-        }
-      
-        
-
-        public async void DeleteItemAsync(int id)
-        {
-            var item = await _context.Item.FirstOrDefaultAsync(m => m.Id == id);
-            if (item == null)
-            {
-                return;
-            }
-            _context.Item.Remove(item);
+            return _context.Item.FirstOrDefault(i => i.Id == id);
         }
 
-        public Item GetItemById(int id) { 
-            return _context.Item.FirstOrDefault(x => x.Id == id);
-        }
-
-        public async void AddItemAsync(Item item)
+        public void AddItem(Item item)
         {
             _context.Item.Add(item);
+
+            _context.SaveChanges();
         }
 
-
-        private bool ItemExists(int id)
+        public bool UpdateItem(Item item)
         {
-            return _context.Item.Any(e => e.Id == id);
+            _context.Attach(item).State = EntityState.Modified;
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch(DbUpdateConcurrencyException)
+            {
+                return false;
+            }
+            return true;
         }
 
-        public Task<IEnumerable<Item>> GetItemAsync()
+        public void DeleteItem(int id)
+        {
+            var item = _context.Item.Find(id);
+            if (item == null) {
+                return;
+            }
+
+            _context.Item.Remove(item);
+
+            _context.SaveChanges();
+        }
+
+        IEnumerable<Item> IItemRepository.GetAllItems(string? filter)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Item> GetItemAsync(int id)
+        Item? IItemRepository.GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateItemAysnc(Item item)
+        void IItemRepository.AddItem(Item item)
         {
             throw new NotImplementedException();
         }
 
-        Task<IList<Item>> IItemRepository.GetAllAsync()
+        bool IItemRepository.UpdateItem(Item item)
         {
             throw new NotImplementedException();
         }
 
-        Task<Item> IItemRepository.GetItemAsync(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Item> IItemRepository.DeleteItem(int? id)
+        void IItemRepository.DeleteItem(int id)
         {
             throw new NotImplementedException();
         }

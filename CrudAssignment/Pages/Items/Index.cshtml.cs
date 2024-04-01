@@ -13,13 +13,12 @@ namespace CrudAssignment.Pages.Items
 {
     public class IndexModel : PageModel
     {
-        private readonly CrudAssignment.Data.CrudAssignmentContext _context;
 
         private readonly IItemRepository _repo;
 
-        public IndexModel(CrudAssignment.Data.CrudAssignmentContext context)
+        public IndexModel(IItemRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
 
         public IList<Item> Item { get;set; } = default!;
@@ -34,25 +33,8 @@ namespace CrudAssignment.Pages.Items
 
         public async Task OnGetAsync()
         {
-            IQueryable<string> nameQuery = from m in _context.Item
-                                            orderby m.Name
-                                            select m.Name;
 
-
-            var items = from m in _context.Item
-                         select m;
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                items = items.Where(s => s.Name.Contains(SearchString));
-            }
-
-
-            if (!string.IsNullOrEmpty(ItemName))
-            {
-                items = items.Where(x => x.Name == ItemName);
-            }
-            Name = new SelectList(await nameQuery.Distinct().ToListAsync());
-            Item = await _context.Item.ToListAsync();
+            Item = (IList<Item>)_repo.GetAllItems(SearchString);
         }
     }
 }

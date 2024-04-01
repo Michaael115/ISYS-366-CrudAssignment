@@ -13,13 +13,12 @@ namespace CrudAssignment.Pages.Items
 {
     public class DeleteModel : PageModel
     {
-        private readonly CrudAssignment.Data.CrudAssignmentContext _context;
 
         private readonly IItemRepository _repo;
 
-        public DeleteModel(CrudAssignment.Data.CrudAssignmentContext context)
+        public DeleteModel(IItemRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
 
         [BindProperty]
@@ -34,7 +33,7 @@ namespace CrudAssignment.Pages.Items
                 return NotFound();
             }
 
-            var item = await _context.Item.FirstOrDefaultAsync(m => m.Id == id);
+            var item = _repo.GetById(id.Value);
 
             if (item == null)
             {
@@ -55,13 +54,7 @@ namespace CrudAssignment.Pages.Items
                 return NotFound();
             }
 
-            var item = await _context.Item.FindAsync(id);
-            if (item != null)
-            {
-                Item = item;
-               await _repo.DeleteItem(id);
-                await _context.SaveChangesAsync();
-            }
+            _repo.DeleteItem(id.Value);
 
             return RedirectToPage("./Index");
         }

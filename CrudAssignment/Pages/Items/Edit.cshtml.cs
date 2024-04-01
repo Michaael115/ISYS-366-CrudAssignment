@@ -32,12 +32,12 @@ namespace CrudAssignment.Pages.Items
 
             //id.value
 
-            var tempItem = await _repo.GetItemAsync(id.Value);
-            if (tempItem == null)
+            var item = _repo.GetById(id.Value);
+            if (item == null)
             {
                 return NotFound();
             }
-            Item = tempItem;
+            Item = item;
             return Page();
         }
 
@@ -50,7 +50,7 @@ namespace CrudAssignment.Pages.Items
                 return Page();
             }
 
-            if(!await _repo.UpdateItemAysnc(Item))
+            if(!_repo.UpdateItem(Item))
             {
                 return NotFound();
             }

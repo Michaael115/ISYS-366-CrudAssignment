@@ -7,9 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<CrudAssignmentContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CrudAssignmentContext") ?? throw new InvalidOperationException("Connection string 'CrudAssignmentContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-builder.Services.AddScoped<ItemRepository, ItemRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
 
 var app = builder.Build();
 

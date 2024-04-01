@@ -12,13 +12,10 @@ namespace CrudAssignment.Pages.Items
 {
     public class DetailsModel : PageModel
     {
-        private readonly CrudAssignment.Data.CrudAssignmentContext _context;
-
-
-
-        public DetailsModel(CrudAssignment.Data.CrudAssignmentContext context)
+        private readonly IItemRepository _repo;
+        public DetailsModel(IItemRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
 
         public Item Item { get; set; } = default!;
@@ -31,7 +28,7 @@ namespace CrudAssignment.Pages.Items
                 return NotFound();
             }
 
-            var item = await _context.Item.FirstOrDefaultAsync(m => m.Id == id);
+            var item = _repo.GetById(id.Value);
             if (item == null)
             {
                 return NotFound();

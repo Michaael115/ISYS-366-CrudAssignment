@@ -12,11 +12,11 @@ namespace CrudAssignment.Pages.Items
 {
     public class CreateModel : PageModel
     {
-        private readonly CrudAssignment.Data.CrudAssignmentContext _context;
+        private readonly IItemRepository _repo;
 
-        public CreateModel(CrudAssignment.Data.CrudAssignmentContext context)
+        public CreateModel(IItemRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
 
         public IActionResult OnGet()
@@ -34,8 +34,7 @@ namespace CrudAssignment.Pages.Items
             {
                 return Page();
             }
-            _context.Item.Add(Item);
-            await _context.SaveChangesAsync();
+                _repo.AddItem(Item);
 
             return RedirectToPage("./Index");
         }
