@@ -18,7 +18,7 @@ namespace CrudAssignment.Pages
 
         public async Task OnGetAsync()
         {
-            ItemModels = await _repo.GetAllAsync();
+            ItemModels = (IList <Item>) _repo.GetAllItems("");
         }
 
     }

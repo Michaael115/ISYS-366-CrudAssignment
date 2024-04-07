@@ -1,5 +1,6 @@
 ﻿using CrudAssignment.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Entity;
 
 namespace CrudAssignment.Data
 {
@@ -20,7 +21,7 @@ namespace CrudAssignment.Data
             return _context.Item.Where(i => i.Name.Contains(filter)).ToList();
         }
 
-        public Item? GetItemById(int id)
+        public Item? GetById(int id)
         {
             return _context.Item.FirstOrDefault(i => i.Id == id);
         }
@@ -34,13 +35,13 @@ namespace CrudAssignment.Data
 
         public bool UpdateItem(Item item)
         {
-            _context.Attach(item).State = EntityState.Modified;
+            _context.Attach(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
             try
             {
                 _context.SaveChanges();
             }
-            catch(DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException)
             {
                 return false;
             }
@@ -50,7 +51,8 @@ namespace CrudAssignment.Data
         public void DeleteItem(int id)
         {
             var item = _context.Item.Find(id);
-            if (item == null) {
+            if (item == null)
+            {
                 return;
             }
 
@@ -59,29 +61,6 @@ namespace CrudAssignment.Data
             _context.SaveChanges();
         }
 
-        IEnumerable<Item> IItemRepository.GetAllItems(string? filter)
-        {
-            throw new NotImplementedException();
-        }
 
-        Item? IItemRepository.GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IItemRepository.AddItem(Item item)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IItemRepository.UpdateItem(Item item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IItemRepository.DeleteItem(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CrudAssignment.Models;
+
 namespace CrudAssignment.Data
 
 {
