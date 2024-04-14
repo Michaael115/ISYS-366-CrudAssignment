@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CrudAssignment.Data;
 using CrudAssignment.Models;
+using CrudAssignment.Utilities;
 
 namespace CrudAssignment.Pages.Items
 {
     public class EditModel : PageModel
     {
         private readonly IItemRepository _repo;
+        private readonly IWebHostEnvironment _env;
 
-        public EditModel(IItemRepository repo)
+        public EditModel(IItemRepository repo, IWebHostEnvironment env)
         {
             _repo = repo;
+            _env = env;
         }
 
         [BindProperty]
@@ -49,6 +52,15 @@ namespace CrudAssignment.Pages.Items
             {
                 return Page();
             }
+
+
+            if(HttpContext.Request.Form.Files.Count > 0)
+            {
+                FileHelper.DeleteOldImage(_env, Item);
+                Item.PictureUrl = FileHelper.UploadNewImage(_env, HttpContext.Request.Form.Files[0]);
+            }
+
+
 
             if(!_repo.UpdateItem(Item))
             {

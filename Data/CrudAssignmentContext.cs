@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CrudAssignment.Models;
 
-namespace CrudAssignment.Data
+namespace UI.Data
 {
     public class CrudAssignmentContext : DbContext
     {

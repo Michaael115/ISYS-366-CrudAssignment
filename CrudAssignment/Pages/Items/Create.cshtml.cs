@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CrudAssignment.Data;
 using CrudAssignment.Models;
+using Microsoft.Extensions.Hosting;
+using CrudAssignment.Utilities;
 
 namespace CrudAssignment.Pages.Items
 {
     public class CreateModel : PageModel
     {
         private readonly IItemRepository _repo;
+        private readonly IWebHostEnvironment _env;
 
-        public CreateModel(IItemRepository repo)
+        public CreateModel(IItemRepository repo, IWebHostEnvironment env)
         {
             _repo = repo;
+            _env = env;
         }
 
         public IActionResult OnGet()
@@ -34,9 +38,18 @@ namespace CrudAssignment.Pages.Items
             {
                 return Page();
             }
-                _repo.AddItem(Item);
+
+            if(HttpContext.Request.Form.Files.Count > 0)
+            {
+               
+                Item.PictureUrl = FileHelper.UploadNewImage(_env, HttpContext.Request.Form.Files[0]);
+            }
+
+            _repo.AddItem(Item);
 
             return RedirectToPage("./Index");
         }
+
+
     }
 }

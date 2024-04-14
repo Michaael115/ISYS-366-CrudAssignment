@@ -1,6 +1,7 @@
 ﻿using CrudAssignment.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
+using UI.Data;
 
 namespace CrudAssignment.Data
 {

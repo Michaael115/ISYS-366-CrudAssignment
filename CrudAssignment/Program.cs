@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using CrudAssignment.Data;
 using CrudAssignment.Models;
+using UI.Data;
+using DataMem;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,7 +19,6 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     
-    SeedData.Initialize(services);
 }
 
 

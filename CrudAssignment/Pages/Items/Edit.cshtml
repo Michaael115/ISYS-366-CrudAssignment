@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Item.Id" />
             <div class="form-group">
@@ -29,11 +29,30 @@
                 <input asp-for="Item.Price" class="form-control" />
                 <span asp-validation-for="Item.Price" class="text-danger"></span>
             </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="Item.PictureUrl" class="control-label"></label>
+                <input type="file" asp-for="Item.PictureUrl" class="form-control" />
+                <span asp-validation-for="Item.PictureUrl" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
+    </div>
+
+
+    <div class="col-md-8">
+        @if(string.IsNullOrEmpty(Model.Item.PictureUrl))
+    {
+        <img src="~/images/PlaceHolder.png" class="card-img" />
+    }
+    
 </div>
 
 <div>
