@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CrudAssignment.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace UI.Data
 {
-    public class CrudAssignmentContext : DbContext
+    public class CrudAssignmentContext : IdentityDbContext
     {
         public CrudAssignmentContext (DbContextOptions<CrudAssignmentContext> options)
             : base(options)

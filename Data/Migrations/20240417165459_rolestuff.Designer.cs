@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UI.Data;
 
@@ -11,9 +12,11 @@ using UI.Data;
 namespace CrudAssignment.Migrations
 {
     [DbContext(typeof(CrudAssignmentContext))]
-    partial class CrudAssignmentContextModelSnapshot : ModelSnapshot
+    [Migration("20240417165459_rolestuff")]
+    partial class rolestuff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
